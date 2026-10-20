@@ -1,0 +1,276 @@
+<!doctype html>
+<html lang="nl">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <title>Flitskaart: leer alles, in een flits</title>
+  <meta name="description" content="Flitskaart is een flashcard-app voor iPhone en iPad. Fotografeer je woordenlijst, herhaal slim op het juiste moment en zie je streak groeien. Voor talen, topografie en elk begrip dat je wilt onthouden.">
+  <meta name="theme-color" content="#0B0B10">
+  <meta property="og:title" content="Flitskaart: leer alles, in een flits">
+  <meta property="og:description" content="Flashcards voor iPhone en iPad. Foto van je woordenlijst, slim herhalen, streaks en badges.">
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://apps.jal.ink/flitskaart/">
+  <meta property="og:image" content="https://apps.jal.ink/flitskaart/og.png">
+  <meta name="twitter:card" content="summary_large_image">
+  <link rel="icon" href="favicon.svg" type="image/svg+xml">
+  <link rel="apple-touch-icon" href="apple-touch-icon.png">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Caveat:wght@500;700&family=JetBrains+Mono:wght@400;500;700&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css?v=2">
+  <script>document.documentElement.classList.add('js')</script>
+</head>
+<body>
+  <svg width="0" height="0" style="position:absolute" aria-hidden="true">
+    <defs>
+      <symbol id="spark" viewBox="0 0 100 100"><path d="M50 0C53 30 70 47 100 50C70 53 53 70 50 100C47 70 30 53 0 50C30 47 47 30 50 0Z"/></symbol>
+    </defs>
+  </svg>
+
+  <header class="nav" id="nav">
+    <a class="brand" href="#top" aria-label="Flitskaart">
+      <img src="img/icon.png" alt="" width="34" height="34">
+      <span>Flitskaart</span>
+    </a>
+    <nav class="nav-links" aria-label="Secties">
+      <a href="#foto">Foto</a>
+      <a href="#herhalen">Herhalen</a>
+      <a href="#voortgang">Voortgang</a>
+    </nav>
+    <a class="btn btn-small" href="#download">Download</a>
+  </header>
+
+  <main id="top">
+    <!-- HERO -->
+    <section class="hero">
+      <div class="hero-glow" aria-hidden="true"></div>
+      <canvas class="sparkfield" id="sparkfield" aria-hidden="true"></canvas>
+
+      <div class="hero-copy">
+        <p class="eyebrow"><span class="pip"></span>Flashcards voor iPhone en iPad</p>
+        <h1 class="hero-title">
+          <span class="line"><span class="word">Leer</span></span>
+          <span class="line"><span class="rotator" id="rotator" aria-live="polite"><span>Frans</span></span></span>
+          <span class="line"><span class="word">in een</span> <span class="flash">flits.</span></span>
+        </h1>
+        <p class="hero-sub">Fotografeer je woordenlijst, herhaal precies op het moment dat je het bijna vergeet, en zie je streak elke dag groeien.</p>
+        <div class="hero-ctas">
+          <a class="btn btn-primary" href="#download">
+            <svg viewBox="0 0 24 24" width="20" height="20" aria-hidden="true"><path fill="currentColor" d="M16.4 12.6c0-2.6 2.1-3.8 2.2-3.9-1.2-1.8-3.1-2-3.7-2-1.6-.2-3.1.9-3.9.9-.8 0-2-.9-3.4-.9-1.7 0-3.3 1-4.2 2.6-1.8 3.1-.5 7.7 1.3 10.2.9 1.2 1.9 2.6 3.2 2.6 1.3-.1 1.8-.8 3.3-.8s2 .8 3.4.8c1.4 0 2.3-1.3 3.1-2.5 1-1.4 1.4-2.8 1.4-2.9 0 0-2.7-1-2.7-4.1zM13.9 5c.7-.9 1.2-2 1-3.2-1 0-2.3.7-3 1.6-.7.8-1.2 2-1.1 3.1 1.2.1 2.3-.6 3.1-1.5z"/></svg>
+            Binnenkort in de App Store
+          </a>
+          <a class="btn btn-ghost" href="#hoe">Zo werkt het</a>
+        </div>
+        <p class="hero-hint mono" aria-hidden="true">← sleep de kaart →</p>
+      </div>
+
+      <div class="deck-wrap">
+        <div class="deck-meta mono" aria-hidden="true">
+          <span><span class="pip"></span><span id="deck-name">FRANS · NEDERLANDS</span></span>
+          <span id="deck-count">kaart 1 van 7</span>
+        </div>
+        <div class="deck" id="deck" role="group" aria-label="Probeer het: sleep de kaart naar rechts als je het weet, naar links als je het nog niet weet. Tik om om te draaien."></div>
+        <div class="deck-buttons">
+          <button class="rate rate-again" id="btn-again" type="button"><span class="mono">1 min</span>Nog niet</button>
+          <button class="rate rate-good" id="btn-good" type="button"><span class="mono">10 min</span>Weet ik</button>
+        </div>
+      </div>
+    </section>
+
+    <!-- MARQUEE -->
+    <section class="marquee" aria-label="Voorbeelden van kaarten">
+      <div class="marquee-row" data-dir="-1"></div>
+      <div class="marquee-row" data-dir="1"></div>
+    </section>
+
+    <!-- FOTO -->
+    <section class="section photo" id="foto">
+      <div class="section-head reveal">
+        <p class="eyebrow"><span class="pip"></span>01 · Foto naar kaarten</p>
+        <h2>Van woordenlijst naar deck. <em>In één foto.</em></h2>
+        <p class="lede">Richt je camera op de lijst uit je schoolboek. Flitskaart leest de woorden, herkent de twee kolommen en maakt er kaarten van. Ook regels die over twee lijnen lopen. Alles op je toestel, niets gaat naar een server.</p>
+      </div>
+      <div class="photo-stage" id="photo-stage">
+        <div class="paper" aria-hidden="true">
+          <div class="paper-head">Hoofdstuk 3 · Thuis</div>
+          <ul class="paper-list">
+            <li><span>la maison</span><span>het huis</span></li>
+            <li><span>le chat</span><span>de kat</span></li>
+            <li><span>la pomme</span><span>de appel</span></li>
+            <li><span>manger</span><span>eten</span></li>
+            <li><span>le soleil</span><span>de zon</span></li>
+            <li><span>la fenêtre</span><span>het raam</span></li>
+          </ul>
+          <div class="scanline"></div>
+          <div class="corner c1"></div><div class="corner c2"></div><div class="corner c3"></div><div class="corner c4"></div>
+        </div>
+        <div class="arrow-flow" aria-hidden="true">
+          <svg viewBox="0 0 120 40"><path d="M2 20 H110" /><path d="M98 8 L112 20 L98 32" /></svg>
+        </div>
+        <div class="chips" id="chips" aria-hidden="true">
+          <div class="chips-head mono"><span>GELEZEN</span><span class="badge-lime mono" id="chip-count">0 kaarten</span></div>
+        </div>
+        <div class="phone phone-photo reveal-up">
+          <img src="img/iphone-pro-max-02-photo.jpg" alt="Het Nakijken-scherm: acht kaarten gelezen uit een foto, met Frans en Nederlands naast elkaar" loading="lazy" width="900" height="1955">
+        </div>
+      </div>
+    </section>
+
+    <!-- HERHALEN -->
+    <section class="section repeat" id="herhalen">
+      <div class="repeat-grid">
+        <div class="section-head reveal">
+          <p class="eyebrow"><span class="pip"></span>02 · Slim herhalen</p>
+          <h2>Herhaal precies<br><em>voordat je het vergeet.</em></h2>
+          <p class="lede">Je geheugen zakt weg volgens een voorspelbare curve. Flitskaart plant elke kaart opnieuw in op het moment dat je hem bijna kwijt bent. Weet je hem, dan schuift hij verder op. Zo kost onthouden steeds minder tijd.</p>
+          <ul class="intervals mono" id="intervals">
+            <li><b>1 min</b><span>nog niet</span></li>
+            <li><b>10 min</b><span>weet ik</span></li>
+            <li><b>1 dag</b></li>
+            <li><b>3 dagen</b></li>
+            <li><b>8 dagen</b></li>
+            <li><b>3 weken</b></li>
+          </ul>
+        </div>
+        <figure class="curve-card reveal">
+          <figcaption class="mono"><span>ONTHOUDEN</span><span>TIJD →</span></figcaption>
+          <svg class="curve" id="curve" viewBox="0 0 600 340" role="img" aria-label="Grafiek: zonder herhalen zakt wat je onthoudt snel weg; met elke herhaling zakt het langzamer.">
+            <defs>
+              <linearGradient id="fade" x1="0" x2="0" y1="0" y2="1">
+                <stop offset="0" stop-color="#C6FF3D" stop-opacity=".28"/>
+                <stop offset="1" stop-color="#C6FF3D" stop-opacity="0"/>
+              </linearGradient>
+            </defs>
+            <g class="grid">
+              <line x1="20" y1="40" x2="590" y2="40"/><line x1="20" y1="120" x2="590" y2="120"/><line x1="20" y1="200" x2="590" y2="200"/><line x1="20" y1="280" x2="590" y2="280"/>
+            </g>
+            <path class="forget" d="M20 40 C 60 190, 120 270, 590 300"/>
+            <path class="area" id="curve-area" d="M20 40 C 40 110, 60 140, 90 150 L90 40 C 120 100, 150 120, 190 126 L190 40 C 240 80, 290 96, 340 100 L340 40 C 420 66, 500 76, 590 80 L590 320 L20 320 Z"/>
+            <path class="remember" id="curve-line" d="M20 40 C 40 110, 60 140, 90 150 L90 40 C 120 100, 150 120, 190 126 L190 40 C 240 80, 290 96, 340 100 L340 40 C 420 66, 500 76, 590 80"/>
+            <g class="dots" id="curve-dots">
+              <circle cx="90" cy="40" r="7"/><circle cx="190" cy="40" r="7"/><circle cx="340" cy="40" r="7"/>
+            </g>
+          </svg>
+          <div class="legend mono"><span><i class="l-lime"></i>met Flitskaart</span><span><i class="l-dim"></i>zonder herhalen</span></div>
+        </figure>
+      </div>
+    </section>
+
+    <!-- SHOWCASE (sticky) -->
+    <section class="showcase" id="hoe">
+      <div class="showcase-sticky">
+        <div class="showcase-steps">
+          <article class="step is-active" data-step="0">
+            <p class="eyebrow mono">Studeren</p>
+            <h3>Sleep, draai, onthoud.</h3>
+            <p>Veeg naar rechts als je het weet, naar links als je het nog niet weet. Tijdens het slepen klapt de kaart al open. Elke kaart wordt voorgelezen in de stem die jij per taal kiest.</p>
+          </article>
+          <article class="step" data-step="1">
+            <p class="eyebrow mono">Decks</p>
+            <h3>Talen, topografie, alles.</h3>
+            <p>Woord en vertaling, of begrip en omschrijving. Zet een toetsdatum op een deck en Flitskaart rekent uit hoeveel nieuwe kaarten per dag je nodig hebt.</p>
+          </article>
+          <article class="step" data-step="2">
+            <p class="eyebrow mono">Voortgang</p>
+            <h3>Elke dag een vakje groener.</h3>
+            <p>Een heatmap van je activiteit, je streak, je retentie en badges die je verdient door door te zetten. Klein genoeg om dagelijks te doen, groot genoeg om trots op te zijn.</p>
+          </article>
+          <div class="step-dots" aria-hidden="true"><i class="on"></i><i></i><i></i></div>
+        </div>
+        <div class="showcase-phone">
+          <div class="phone phone-big">
+            <img class="screen is-on" src="img/iphone-pro-max-01-study-dark.jpg" alt="Studeren: de kaart l'école met het antwoord de school, en knoppen Nog niet en Weet ik" width="900" height="1955">
+            <img class="screen" src="img/iphone-pro-max-03-decks-dark.jpg" alt="Decks: Aardrijkskunde, Duits, Engels, Frans en Hoofdsteden Europa met voortgangsbalken" width="900" height="1955" loading="lazy">
+            <img class="screen" src="img/iphone-pro-max-04-progress-dark.jpg" alt="Voortgang: 22 dagen op rij, 1.722 herhalingen, 98 procent retentie, heatmap en badges" width="900" height="1955" loading="lazy">
+          </div>
+          <div class="orbit" aria-hidden="true"><svg><use href="#spark"/></svg><svg><use href="#spark"/></svg><svg><use href="#spark"/></svg></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- VOORTGANG -->
+    <section class="section progress" id="voortgang">
+      <div class="section-head center reveal">
+        <p class="eyebrow"><span class="pip"></span>03 · Voortgang</p>
+        <h2>Kleine stappen.<br><em>Zichtbaar resultaat.</em></h2>
+      </div>
+      <div class="stats">
+        <div class="stat reveal"><div class="stat-num"><span class="flame">🔥</span><span data-count="22">0</span></div><div class="stat-label mono">dagen op rij</div></div>
+        <div class="stat reveal"><div class="stat-num" data-count="1722" data-format="nl">0</div><div class="stat-label mono">herhalingen</div></div>
+        <div class="stat reveal"><div class="stat-num lime"><span data-count="98">0</span>%</div><div class="stat-label mono">retentie</div></div>
+      </div>
+      <div class="heat-card reveal">
+        <div class="heat-head"><span>Activiteit</span><span class="mono dim">26 weken</span></div>
+        <div class="heatmap" id="heatmap" aria-hidden="true"></div>
+        <div class="heat-legend mono"><span>MINDER</span><i class="h0"></i><i class="h1"></i><i class="h2"></i><i class="h3"></i><span>MEER</span></div>
+      </div>
+      <div class="badges" id="badges">
+        <div class="badge"><div class="medal gold"><svg viewBox="0 0 24 24"><path d="M7 2h10l-3 6h-4z"/><circle cx="12" cy="15" r="6"/></svg></div><span>Op dreef</span></div>
+        <div class="badge"><div class="medal gold"><svg viewBox="0 0 24 24"><path d="M7 2h10l-3 6h-4z"/><circle cx="12" cy="15" r="6"/></svg></div><span>Doorzetter</span></div>
+        <div class="badge"><div class="medal orange"><span>🔥</span></div><span>Week rond</span></div>
+        <div class="badge"><div class="medal lime"><svg viewBox="0 0 24 24"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg></div><span>Deck uit</span></div>
+        <div class="badge locked"><div class="medal"><svg viewBox="0 0 24 24"><rect x="6" y="11" width="12" height="9" rx="2"/><path d="M9 11V8a3 3 0 0 1 6 0v3"/></svg></div><span>Veteraan</span></div>
+      </div>
+    </section>
+
+    <!-- BENTO -->
+    <section class="section bento-wrap">
+      <div class="section-head center reveal">
+        <p class="eyebrow"><span class="pip"></span>En verder</p>
+        <h2>Alles wat je nodig hebt.<br><em>Niets wat je afleidt.</em></h2>
+      </div>
+      <div class="bento">
+        <article class="tile tile-ipad reveal">
+          <div class="tile-copy"><h3>Gemaakt voor iPad</h3><p>Zijbalk, grote kaarten en Stage Manager. Je decks synchroniseren via iCloud tussen al je toestellen.</p></div>
+          <div class="ipad"><img src="img/ipad-pro-13-01-study-dark.jpg" alt="Flitskaart op iPad: studeren met een grote kaart" loading="lazy" width="900" height="1200"></div>
+        </article>
+        <article class="tile tile-voice reveal">
+          <div class="wave" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i></div>
+          <h3>Hoor elke kaart</h3>
+          <p>Voorlezen met de beste stem op je toestel. Kies per taal je favoriet.</p>
+        </article>
+        <article class="tile tile-exam reveal">
+          <div class="countdown"><span class="mono dim">TOETS FRANS</span><b><span data-count="12">0</span> dagen</b><span class="mono">8 nieuwe kaarten per dag</span></div>
+          <h3>Klaar voor de toets</h3>
+          <p>Zet een toetsdatum en zie hoeveel je per dag moet doen.</p>
+        </article>
+        <article class="tile tile-widget reveal">
+          <img src="img/widget-medium.png" alt="Widget met 59 kaarten te herhalen en een streak van 22 dagen" loading="lazy" width="1014" height="474">
+          <h3>Widgets</h3>
+          <p>Je herhalingen en streak op je beginscherm. Eén tik en je studeert.</p>
+        </article>
+        <article class="tile tile-private reveal">
+          <div class="lock" aria-hidden="true"><svg viewBox="0 0 24 24"><rect x="5" y="11" width="14" height="10" rx="3"/><path d="M8 11V7.5a4 4 0 0 1 8 0V11"/></svg></div>
+          <h3>Van jou, niet van ons</h3>
+          <p>Geen account, geen advertenties, geen tracking. Je kaarten staan op je toestel en in jouw iCloud.</p>
+        </article>
+      </div>
+    </section>
+
+    <!-- CTA -->
+    <section class="cta" id="download">
+      <div class="cta-inner">
+        <div class="cta-icon">
+          <img src="img/icon.png" alt="App-icoon van Flitskaart" width="128" height="128">
+          <svg class="cta-spark s1" aria-hidden="true"><use href="#spark"/></svg>
+          <svg class="cta-spark s2" aria-hidden="true"><use href="#spark"/></svg>
+          <svg class="cta-spark s3" aria-hidden="true"><use href="#spark"/></svg>
+        </div>
+        <h2>Wat ga jij<br>onthouden?</h2>
+        <p>Flitskaart komt binnenkort naar de App Store, voor iPhone en iPad. Wil je nu al meedoen met de bèta via TestFlight?</p>
+        <div class="hero-ctas center">
+          <a class="btn btn-dark" href="mailto:eran@jal.ink?subject=Flitskaart%20b%C3%A8ta">Vraag een bètaplek aan</a>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="footer">
+    <div class="brand"><img src="img/icon.png" alt="" width="26" height="26"><span>Flitskaart</span></div>
+    <p class="mono dim">Gemaakt in Rotterdam door Eran Jalink · iOS 16+ · iPadOS 16+ · <a href="https://apps.jal.ink/flitskaart/privacy/">Privacy</a> · <a href="https://apps.jal.ink/flitskaart/support/">Support</a></p>
+  </footer>
+
+  <script src="vendor/motion.js"></script>
+  <script src="main.js?v=2"></script>
+</body>
+</html>
