@@ -326,6 +326,8 @@ p { margin: 0; }
 .cta-inner::before { content: ""; position: absolute; inset: 0; background: radial-gradient(600px circle at 50% 0%, rgba(255,255,255,.55), transparent 60%); pointer-events: none; }
 .cta h2 { font-size: clamp(48px, 8vw, 110px); letter-spacing: -0.055em; line-height: .92; margin: 34px 0 24px; position: relative; }
 .cta p { font-size: 19px; max-width: 30em; margin: 0 auto 34px; position: relative; color: #1f2a08; }
+.cta .cta-android { font-size: 15px; margin: 28px auto 0; }
+.cta-android a { color: inherit; font-weight: 600; text-decoration: underline; text-underline-offset: 3px; }
 .cta-icon { position: relative; display: inline-block; }
 .cta-icon img { width: 128px; height: 128px; border-radius: 30px; box-shadow: 0 0 0 2px rgba(11,11,16,.9), 0 30px 60px -20px rgba(11,11,16,.6); }
 .cta-spark { position: absolute; fill: var(--bg); }
